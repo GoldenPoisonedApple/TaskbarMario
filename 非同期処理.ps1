@@ -13,18 +13,28 @@ $label.Location = New-Object System.Drawing.Point(50, 20)
 $form.Controls.Add($label)
 
 # カウンターの初期化
-$counter = 0
+$counter = 20
 
 # タイマーを作成
 $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = 10
 
-# タイマーのTickイベントハンドラ
-$timer.add_Tick({
+# イベントハンドラを定義
+$eventHandler = {
+	# カウンターをインクリメントしてラベルのテキストを更新
+	$counter++
+	$label.Text = $counter.ToString()
+}
+
+# イベントハンドラを追加
+$timer.add_Tick($eventHandler)
+
+
+#$timer.add_Tick({
     # カウンターをインクリメントしてラベルのテキストを更新
-    $script:counter++
-    $label.Text = $script:counter.ToString()
-})
+#    $counter++
+#    $label.Text = $counter.ToString()
+#})
 
 # タイマーを開始
 $timer.Start()

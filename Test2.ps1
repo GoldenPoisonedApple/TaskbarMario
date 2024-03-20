@@ -14,15 +14,27 @@ $Form2.StartPosition = "CenterScreen"
 
 # ウィンドウ表示用のスレッド1
 $job1 = Start-ThreadJob -ScriptBlock {
-    param($Form)
-    $Form.ShowDialog()
+	param($Form)
+	$Form.ShowDialog()
 } -ArgumentList $Form1
+
+
+
 
 # ウィンドウ表示用のスレッド2
 $job2 = Start-ThreadJob -ScriptBlock {
-    param($Form)
-    $Form.ShowDialog()
-} -ArgumentList $Form2
+	class Myclass {
+		Myclass () {
+		}
+		[void] Create () {
+			$form = New-Object System.Windows.Forms.Form
+			$form.ShowDialog();
+		}
+	}
+	
+	$myclass = [Myclass]::new()
+	$myclass.Create()
+}
 
 # 両方のスレッドが終了するまで待機
 $job1 | Wait-Job
