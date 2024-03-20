@@ -27,6 +27,8 @@ class Mario {
 	$screen_x
 	# 画像のインデックス
 	$index = 0
+	# タイマー
+	$timer
 
 	Mario() {
 		$this.Create()
@@ -104,6 +106,17 @@ class Mario {
 		}
 	}
 
+	[void] Test () {
+		# タイマーを作成
+		$this.timer = New-Object System.Windows.Forms.Timer
+		$this.timer.Interval = 1000
+
+		# タイマーのTickイベントハンドラ
+		$this.timer.add_Tick({
+			Write-Host "Tick"
+		})
+	}
+
 	[void] ChangeImage() {
 		$this.index++
 		if ($this.index -ge $this::imagePath.Length) {
@@ -135,6 +148,12 @@ function PutClayPipe () {
 	$pictureBox.Width = $form.ClientSize.Width
 	$pictureBox.Height = $form.ClientSize.Height
 	$pictureBox.Image = [TypeConverter]::GetType("System.Drawing.Image")::FromFile($PYPE)
+	# クリックイベント作成
+	$onClick = {
+		Write-Host "Clicked"
+	}
+	# ウィンドウにクリックイベントをバインド
+	$pictureBox.Add_Click($onClick)
 	# ピクチャーボックスをフォームに追加
 	$form.Controls.Add($pictureBox)
 	# 位置を設定して表示
@@ -143,14 +162,14 @@ function PutClayPipe () {
 	$form.Left = $screen.Bounds.Width - $form.Width
 	$form.Top = $screen.Bounds.Height - $form.Height - $TASKBAR_HEIGHT
 	# ウィンドウを表示
-	$form.Show()
+	$form.ShowDialog()
 	# ウィンドウを最前面に表示
 	$form.TopMost = $true
 }
 
-# パイプを表示
-PutClayPipe
-
 # マリオを表示
 $mario = [Mario]::new()
-$mario.Show()
+$mario.Test()
+
+# パイプを表示
+PutClayPipe
