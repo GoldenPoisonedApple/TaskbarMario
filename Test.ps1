@@ -82,6 +82,8 @@ class Mario {
 	[void] Show() {
 		# ウィンドウを表示
 		$this.form.Show();
+		# ウィンドウを最前面に表示
+		$this.form.TopMost = $true
 		# マリオを動かす
 		while ($true) {
 			# 移動
@@ -142,6 +144,8 @@ function PutClayPipe () {
 	$form.Top = $screen.Bounds.Height - $form.Height - $TASKBAR_HEIGHT
 	# ウィンドウを表示
 	$form.Show()
+	# ウィンドウを最前面に表示
+	$form.TopMost = $true
 }
 
 # パイプを表示
